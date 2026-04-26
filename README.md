@@ -16,7 +16,7 @@ An interactive, high-performance web platform designed for the next generation o
 
 ## 🔗 Live Demo
 Explore the future of AI-driven lodging here: 
-[Launch Ai_Matrix Experience](https://sai-sri-krishna.github.io/Ai_Matrix/)
+[Launch Ai_Matrix Experience](https://sai-sri-krishna.github.io/AI_MATRIX/)
 
 ## 🕹️ How It Works
 1. **Interactive Discovery:** The system uses a `boutique-carousel` container where JavaScript dynamically injects boutique data.
