@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staybnb — AI Fashion Intelligence</title>
+    <meta name="description"
+        content="Staybnb is an immersive AI-powered fashion platform with mood detection, skin-tone adaptive styling, and sustainable wardrobe intelligence." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="auth.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════ CURSOR GLOW ═══════════════════════════════ -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- ═══════════════════════════════ PARTICLE CANVAS ═══════════════════════════ -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- ═══════════════════════════════ AUTH MODALS ══════════════════════════════ -->
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginOverlay">
+        <div class="modal auth-modal" id="loginModal">
+            <button class="modal-close" id="loginClose" aria-label="Close">✕</button>
+            <div class="auth-modal-left">
+                <div class="auth-brand">
+                    <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                        <circle cx="20" cy="20" r="18" stroke="url(#aLogoGrad)" stroke-width="2" />
+                        <path d="M12 20 Q20 8 28 20 Q20 32 12 20Z" fill="url(#aLogoGrad)" opacity="0.9" />
+                        <circle cx="20" cy="20" r="4" fill="white" />
+                        <defs>
+                            <linearGradient id="aLogoGrad" x1="0" y1="0" x2="40" y2="40">
+                                <stop offset="0%" stop-color="#b47bff" />
+                                <stop offset="100%" stop-color="#00d4ff" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="auth-brand-name">Staybnb</span>
+                </div>
+                <h2 class="auth-title">Welcome back,<br /><span class="gradient-text">Stylist.</span></h2>
+                <p class="auth-subtitle">Your AI wardrobe, mood board and boutique companions await.</p>
+                <div class="auth-features">
+                    <div class="auth-feature"><span>✦</span> Mood-adaptive outfit feed</div>
+                    <div class="auth-feature"><span>◎</span> Skin-tone colour palette</div>
+                    <div class="auth-feature"><span>🌱</span> Sustainable style tracking</div>
+                </div>
+            </div>
+            <div class="auth-modal-right">
+                <h3 class="auth-form-title">Sign in</h3>
+                <form id="loginForm" novalidate>
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email"
+                            required />
+                        <span class="form-error" id="loginEmailErr"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="input-eye-wrap">
+                            <input type="password" id="loginPassword" placeholder="••••••••"
+                                autocomplete="current-password" required />
+                            <button type="button" class="eye-btn" data-target="loginPassword">👁</button>
+                        </div>
+                        <span class="form-error" id="loginPassErr"></span>
+                    </div>
+                    <div class="form-row">
+                        <label class="checkbox-label"><input type="checkbox" id="rememberMe" /> Remember me</label>
+                        <a href="#" class="auth-link" id="forgotLink">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn-primary btn-auth" id="loginSubmit">
+                        <span class="btn-text">Sign In</span>
+                        <span class="btn-spinner" hidden>⟳</span>
+                    </button>
+                    <div class="auth-divider"><span>or continue with</span></div>
+                    <div class="social-btns">
+                        <button type="button" class="social-btn" id="googleLogin">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="#EA4335"
+                                    d="M21.805 10.023H21V10H12v4h5.651a5.5 5.5 0 11-1.627-6.5l2.828-2.829A9.957 9.957 0 0012 2 10 10 0 1022 12c0-.665-.069-1.315-.195-1.977z" />
+                            </svg>
+                            Google
+                        </button>
+                        <button type="button" class="social-btn" id="appleLogin">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="white">
+                                <path
+                                    d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.54 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
+                            </svg>
+                            Apple
+                        </button>
+                    </div>
+                    <p class="auth-switch">Don't have an account? <a href="#" class="auth-link" id="goToSignup">Sign
+                            up</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal-overlay" id="signupOverlay">
+        <div class="modal auth-modal" id="signupModal">
+            <button class="modal-close" id="signupClose" aria-label="Close">✕</button>
+            <div class="auth-modal-left signup-left">
+                <div class="auth-brand">
+                    <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                        <circle cx="20" cy="20" r="18" stroke="url(#bLogoGrad)" stroke-width="2" />
+                        <path d="M12 20 Q20 8 28 20 Q20 32 12 20Z" fill="url(#bLogoGrad)" opacity="0.9" />
+                        <circle cx="20" cy="20" r="4" fill="white" />
+                        <defs>
+                            <linearGradient id="bLogoGrad" x1="0" y1="0" x2="40" y2="40">
+                                <stop offset="0%" stop-color="#b47bff" />
+                                <stop offset="100%" stop-color="#00d4ff" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="auth-brand-name">Staybnb</span>
+                </div>
+                <h2 class="auth-title">Join the<br /><span class="gradient-text">Fashion AI.</span></h2>
+                <p class="auth-subtitle">Create your intelligent style profile in seconds.</p>
+                <div class="signup-steps">
+                    <div class="signup-step active" id="sstep1"><span class="step-num">1</span> Your Info</div>
+                    <div class="step-connector"></div>
+                    <div class="signup-step" id="sstep2"><span class="step-num">2</span> Style DNA</div>
+                    <div class="step-connector"></div>
+                    <div class="signup-step" id="sstep3"><span class="step-num">3</span> Ready!</div>
+                </div>
+            </div>
+            <div class="auth-modal-right">
+                <!-- Step 1 -->
+                <div class="signup-step-form" id="signupStep1">
+                    <h3 class="auth-form-title">Create Account</h3>
+                    <form id="signupForm1" novalidate>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="signupFirst">First Name</label>
+                                <input type="text" id="signupFirst" placeholder="Priya" required />
+                                <span class="form-error" id="firstErr"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupLast">Last Name</label>
+                                <input type="text" id="signupLast" placeholder="Sharma" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmail">Email</label>
+                            <input type="email" id="signupEmail" placeholder="your@email.com" required />
+                            <span class="form-error" id="signupEmailErr"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Password</label>
+                            <div class="input-eye-wrap">
+                                <input type="password" id="signupPassword" placeholder="Min. 8 characters" required />
+                                <button type="button" class="eye-btn" data-target="signupPassword">👁</button>
+                            </div>
+                            <div class="password-strength" id="pwStrength">
+                                <div class="pw-bar" id="pwBar"></div>
+                            </div>
+                            <span class="pw-hint" id="pwHint">Enter password</span>
+                        </div>
+                        <button type="submit" class="btn-primary btn-auth">Continue →</button>
+                        <p class="auth-switch">Already have an account? <a href="#" class="auth-link"
+                                id="goToLogin">Sign in</a></p>
+                    </form>
+                </div>
+                <!-- Step 2: Style DNA -->
+                <div class="signup-step-form hidden" id="signupStep2">
+                    <h3 class="auth-form-title">Your Style DNA</h3>
+                    <p class="step-note">Pick up to 3 vibes that feel like you</p>
+                    <div class="dna-grid" id="dnaGrid">
+                        <div class="dna-chip" data-val="Minimalist">🌿 Minimalist</div>
+                        <div class="dna-chip" data-val="Bold">⚡ Bold</div>
+                        <div class="dna-chip" data-val="Romantic">🌸 Romantic</div>
+                        <div class="dna-chip" data-val="Streetwear">🔥 Streetwear</div>
+                        <div class="dna-chip" data-val="Vintage">🕰 Vintage</div>
+                        <div class="dna-chip" data-val="Futuristic">🚀 Futuristic</div>
+                        <div class="dna-chip" data-val="Boho">🌙 Boho</div>
+                        <div class="dna-chip" data-val="Luxe">💎 Luxe</div>
+                    </div>
+                    <div class="form-group" style="margin-top:20px">
+                        <label for="signupCity">Your City</label>
+                        <input type="text" id="signupCity" placeholder="Mumbai, Delhi, Bangalore…" />
+                    </div>
+                    <button class="btn-primary btn-auth" id="step2Next">Complete Profile →</button>
+                    <button class="btn-ghost step-back" id="step2Back">← Back</button>
+                </div>
+                <!-- Step 3: Done -->
+                <div class="signup-step-form hidden" id="signupStep3">
+                    <div class="signup-success">
+                        <div class="success-icon">✦</div>
+                        <h3 class="auth-form-title">You're in, <span class="gradient-text"
+                                id="welcomeName">Stylist</span>!</h3>
+                        <p class="step-note">Your intelligent wardrobe is being prepared…</p>
+                        <div class="success-chips" id="successChips"></div>
+                        <button class="btn-primary btn-auth" id="enterAppBtn">Enter Staybnb →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════ PROFILE PANEL ═════════════════════════════ -->
+    <div class="modal-overlay" id="profileOverlay">
+        <div class="modal profile-modal" id="profileModal">
+            <button class="modal-close" id="profileClose" aria-label="Close">✕</button>
+            <div class="profile-header">
+                <div class="profile-avatar-wrapper">
+                    <div class="profile-avatar" id="profileAvatar">
+                        <span id="profileAvatarInitials">P</span>
+                    </div>
+                    <button class="avatar-edit-btn" id="avatarEditBtn" title="Change avatar">+</button>
+                    <input type="file" id="avatarInput" accept="image/*" hidden />
+                </div>
+                <div class="profile-identity">
+                    <h2 class="profile-name" id="profileName">Priya Sharma</h2>
+                    <p class="profile-email" id="profileEmail">priya@email.com</p>
+                    <div class="profile-badges">
+                        <span class="p-badge eco">🌱 Eco Stylist</span>
+                        <span class="p-badge ai">✦ AI Member</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-stats-row">
+                <div class="p-stat">
+                    <div class="p-stat-val" id="pSavedCount">0</div>
+                    <div class="p-stat-label">Saved Looks</div>
+                </div>
+                <div class="p-stat">
+                    <div class="p-stat-val" id="pMoodCount">Confident</div>
+                    <div class="p-stat-label">Top Mood</div>
+                </div>
+                <div class="p-stat">
+                    <div class="p-stat-val" id="pEcoScore">84</div>
+                    <div class="p-stat-label">Eco Score</div>
+                </div>
+            </div>
+
+            <div class="profile-tabs">
+                <button class="p-tab active" data-tab="saved" id="tabSaved">Saved Looks</button>
+                <button class="p-tab" data-tab="dna" id="tabDna">Style DNA</button>
+                <button class="p-tab" data-tab="settings" id="tabSettings">Settings</button>
+            </div>
+
+            <!-- Saved Looks Tab -->
+            <div class="p-tab-content active" id="tabContentSaved">
+                <div class="saved-looks-grid" id="savedLooksGrid">
+                    <div class="saved-empty">
+                        <span>♡</span>
+                        <p>No saved looks yet.<br />Tap the heart on any outfit!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Style DNA Tab -->
+            <div class="p-tab-content hidden" id="tabContentDna">
+                <div class="dna-display">
+                    <div class="dna-section-label">My Style Vibes</div>
+                    <div class="dna-tags" id="profileDnaTags">
+                        <span class="p-dna-tag">Minimalist</span>
+                        <span class="p-dna-tag">Bold</span>
+                        <span class="p-dna-tag">Futuristic</span>
+                    </div>
+                    <div class="dna-section-label" style="margin-top:20px">Mood History</div>
+                    <div class="mood-history-bars" id="moodHistoryBars">
+                        <!-- filled by JS -->
+                    </div>
+                    <div class="dna-section-label" style="margin-top:20px">Favourite Tone</div>
+                    <div class="tone-pill-row" id="tonePillRow"></div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="p-tab-content hidden" id="tabContentSettings">
+                <div class="settings-list">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-name">Notifications</div>
+                            <div class="setting-desc">Style tips & new drops</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="notifToggle" checked />
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-name">Eco Mode</div>
+                            <div class="setting-desc">Show only sustainable brands</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="ecoToggle" />
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-name">AI Scan</div>
+                            <div class="setting-desc">Enable automatic mood detection</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="aiToggle" checked />
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-name">Dark Theme</div>
+                            <div class="setting-desc">Always on for Staybnb</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked disabled />
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="form-group" style="margin-top:20px">
+                        <label>Display Name</label>
+                        <input type="text" id="settingsName" placeholder="Your name" />
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="settingsCity" placeholder="Mumbai" />
+                    </div>
+                    <button class="btn-primary" style="width:100%;margin-top:8px" id="saveSettingsBtn">Save
+                        Changes</button>
+                    <button class="btn-ghost logout-btn" id="logoutBtn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════ NAV ══════════════════════════════════════ -->
+    <nav class="nav" id="nav">
+        <div class="nav-logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" stroke="url(#logoGrad)" stroke-width="2" />
+                    <path d="M12 20 Q20 8 28 20 Q20 32 12 20Z" fill="url(#logoGrad)" opacity="0.8" />
+                    <circle cx="20" cy="20" r="4" fill="white" />
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#b47bff" />
+                            <stop offset="100%" stop-color="#00d4ff" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <span class="logo-text">Staybnb</span>
+            <span class="logo-tag">AI</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#mood" class="nav-link active">Mood</a></li>
+            <li><a href="#outfits" class="nav-link">Outfits</a></li>
+            <li><a href="#wardrobe" class="nav-link">Wardrobe</a></li>
+            <li><a href="#sustainability" class="nav-link">Eco</a></li>
+            <li><a href="#boutiques" class="nav-link">Boutiques</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="ai-pulse-badge">
+                <span class="pulse-dot"></span>
+                AI Active
+            </div>
+            <!-- Guest state -->
+            <div class="nav-guest-btns" id="navGuestBtns">
+                <button class="btn-ghost" id="navLogin">Log In</button>
+                <button class="btn-primary" id="navSignup">Sign Up</button>
+            </div>
+            <!-- Auth state (hidden until logged in) -->
+            <div class="nav-user-area hidden" id="navUserArea">
+                <button class="nav-profile-btn" id="navProfileBtn" aria-label="My Profile">
+                    <div class="nav-avatar" id="navAvatar">P</div>
+                    <span class="nav-user-name" id="navUserName">Priya</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════ HERO ══════════════════════════════════════ -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-mesh"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Fashion Intelligence v3.0
+            </div>
+            <h1 class="hero-title">
+                <span class="line-1">Your Style,</span>
+                <span class="line-2 gradient-text">Emotionally Intelligent</span>
+            </h1>
+            <p class="hero-subtitle">
+                Staybnb reads your mood, adapts to your skin tone, and curates outfits that speak your truth — powered
+                by living AI.
+            </p>
+            <div class="hero-actions">
+                <button class="btn-primary btn-lg glow-btn" id="heroScan">
+                    <span class="btn-icon">⟳</span> Scan My Aura
+                </button>
+                <button class="btn-ghost btn-lg" id="heroExplore">
+                    Explore Styles →
+                </button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat"><span class="stat-num" data-target="2.4">0</span><span>M+</span>
+                    <div class="stat-label">Outfits Curated</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat"><span class="stat-num" data-target="98">0</span><span>%</span>
+                    <div class="stat-label">Mood Accuracy</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat"><span class="stat-num" data-target="340">0</span><span>+</span>
+                    <div class="stat-label">Boutiques</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="fashion-figure" id="fashionFigure">
+                <div class="figure-glow-ring ring-1"></div>
+                <div class="figure-glow-ring ring-2"></div>
+                <div class="figure-glow-ring ring-3"></div>
+                <!-- Real fashion photo -->
+                <div class="hero-photo-frame">
+                    <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=420&q=85&fit=crop&crop=faces,upper"
+                        alt="AI Fashion Model" class="hero-photo" id="heroPhoto" loading="eager" />
+                    <div class="hero-photo-overlay"></div>
+                    <!-- Scan lines -->
+                    <div class="scan-overlay">
+                        <div class="scan-beam"></div>
+                    </div>
+                </div>
+                <!-- Floating data tags -->
+                <div class="data-tag tag-mood" id="moodTag">
+                    <div class="tag-icon">✦</div>
+                    <div class="tag-content">
+                        <div class="tag-label">Mood Detected</div>
+                        <div class="tag-value" id="currentMood">Confident</div>
+                    </div>
+                </div>
+                <div class="data-tag tag-tone">
+                    <div class="tag-icon">◎</div>
+                    <div class="tag-content">
+                        <div class="tag-label">Skin Tone</div>
+                        <div class="tag-value">Warm Medium</div>
+                    </div>
+                </div>
+                <div class="data-tag tag-style">
+                    <div class="tag-icon">⟡</div>
+                    <div class="tag-content">
+                        <div class="tag-label">Style Match</div>
+                        <div class="tag-value">97% ↑</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════ MOOD DETECTION ════════════════════════════ -->
+    <section class="section" id="mood">
+        <div class="section-header">
+            <div class="section-tag">01 — Mood Intelligence</div>
+            <h2 class="section-title">How does <span class="gradient-text">your aura</span> feel today?</h2>
+            <p class="section-subtitle">Our AI reads micro-expressions, color preferences, and behavioral signals to
+                detect your emotional state.</p>
+        </div>
+
+        <div class="mood-board">
+            <div class="mood-radar-container">
+                <div class="radar-label">Emotional Spectrum Analysis</div>
+                <canvas id="moodRadar" width="340" height="340"></canvas>
+                <div class="radar-center-dot"></div>
+                <div class="mood-tags-orbit" id="moodOrbit">
+                    <div class="orbit-tag" style="--angle:0deg">Bold</div>
+                    <div class="orbit-tag" style="--angle:51.4deg">Calm</div>
+                    <div class="orbit-tag" style="--angle:102.8deg">Playful</div>
+                    <div class="orbit-tag" style="--angle:154.2deg">Elegant</div>
+                    <div class="orbit-tag" style="--angle:205.6deg">Fierce</div>
+                    <div class="orbit-tag" style="--angle:257deg">Dreamy</div>
+                    <div class="orbit-tag" style="--angle:308.5deg">Grounded</div>
+                </div>
+            </div>
+
+            <div class="mood-selector">
+                <div class="mood-selector-title">Select Your Vibe</div>
+                <div class="mood-grid" id="moodGrid">
+                    <div class="mood-chip active" data-mood="Confident" data-color="#b47bff" id="mood-confident">
+                        <div class="mood-chip-icon">⚡</div>
+                        <span>Confident</span>
+                    </div>
+                    <div class="mood-chip" data-mood="Calm" data-color="#00d4ff" id="mood-calm">
+                        <div class="mood-chip-icon">🌊</div>
+                        <span>Calm</span>
+                    </div>
+                    <div class="mood-chip" data-mood="Playful" data-color="#ff6b9d" id="mood-playful">
+                        <div class="mood-chip-icon">✨</div>
+                        <span>Playful</span>
+                    </div>
+                    <div class="mood-chip" data-mood="Elegant" data-color="#ffd700" id="mood-elegant">
+                        <div class="mood-chip-icon">♦</div>
+                        <span>Elegant</span>
+                    </div>
+                    <div class="mood-chip" data-mood="Fierce" data-color="#ff4466" id="mood-fierce">
+                        <div class="mood-chip-icon">🔥</div>
+                        <span>Fierce</span>
+                    </div>
+                    <div class="mood-chip" data-mood="Dreamy" data-color="#a78bfa" id="mood-dreamy">
+                        <div class="mood-chip-icon">☁</div>
+                        <span>Dreamy</span>
+                    </div>
+                </div>
+
+                <div class="ai-analysis-box" id="aiAnalysisBox">
+                    <div class="analysis-header">
+                        <div class="analysis-pulse"></div>
+                        AI Style Analysis
+                    </div>
+                    <div class="analysis-text" id="analysisText">
+                        Your confident energy calls for structured silhouettes, bold monochromatics, and statement
+                        accessories. Power dressing with an edge.
+                    </div>
+                    <div class="analysis-tags" id="analysisTags">
+                        <span class="a-tag">Blazer</span>
+                        <span class="a-tag">Wide-leg Trousers</span>
+                        <span class="a-tag">Structured Bag</span>
+                        <span class="a-tag">Block Heels</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════ SKIN TONE ADAPTIVE ════════════════════════ -->
+    <section class="section skin-tone-section" id="skintone">
+        <div class="section-header">
+            <div class="section-tag">02 — Adaptive Palette</div>
+            <h2 class="section-title">Colors that <span class="gradient-text">celebrate you</span></h2>
+            <p class="section-subtitle">AI analyzes undertones and luminosity to curate a personal color palette that
+                makes you radiant.</p>
+        </div>
+
+        <div class="tone-showcase">
+            <div class="tone-selector-panel">
+                <div class="tone-label">Choose Your Skin Tone</div>
+                <div class="tone-swatches" id="toneSwatches">
+                    <div class="swatch active" data-tone="fair" style="background:#f5deb3" id="swatch-fair"
+                        title="Fair"></div>
+                    <div class="swatch" data-tone="light" style="background:#deb887" id="swatch-light" title="Light">
+                    </div>
+                    <div class="swatch" data-tone="medium" style="background:#cd853f" id="swatch-medium" title="Medium">
+                    </div>
+                    <div class="swatch" data-tone="tan" style="background:#8b4513" id="swatch-tan" title="Tan"></div>
+                    <div class="swatch" data-tone="deep" style="background:#3d1c02" id="swatch-deep" title="Deep"></div>
+                    <div class="swatch" data-tone="rich" style="background:#1a0a00" id="swatch-rich" title="Rich"></div>
+                </div>
+
+                <div class="tone-palette-display" id="tonePalette">
+                    <div class="palette-item" id="palette-0"></div>
+                    <div class="palette-item" id="palette-1"></div>
+                    <div class="palette-item" id="palette-2"></div>
+                    <div class="palette-item" id="palette-3"></div>
+                    <div class="palette-item" id="palette-4"></div>
+                </div>
+                <div class="tone-recommendation" id="toneRec">
+                    Champagne, Butter Yellow, Ivory &amp; Dusty Rose flatter your fair undertones beautifully.
+                </div>
+            </div>
+
+            <div class="tone-preview-mannequin">
+                <div class="mannequin-glow" id="mannequinGlow"></div>
+                <!-- Real model photo with adaptive color overlay -->
+                <div class="tone-photo-frame">
+                    <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=340&q=80&fit=crop&crop=faces,upper"
+                        alt="Skin tone adaptive styling" class="tone-photo" id="tonePhoto" />
+                    <div class="tone-photo-color-wash" id="toneColorWash"></div>
+                </div>
+                <div class="tone-color-ring" id="toneColorRing"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════ OUTFIT CARDS ══════════════════════════════ -->
+    <section class="section" id="outfits">
+        <div class="section-header">
+            <div class="section-tag">03 — My Style Feed</div>
+            <h2 class="section-title">AI Curated <span class="gradient-text">Looks for You</span></h2>
+            <p class="section-subtitle">Floating outfit cards — hover, explore, and save to your wardrobe.</p>
+        </div>
+
+        <div class="outfit-filter-bar" id="outfitFilterBar">
+            <button class="filter-btn active" data-filter="All">All</button>
+            <button class="filter-btn" data-filter="Confident">⚡ Confident</button>
+            <button class="filter-btn" data-filter="Calm">🌊 Calm</button>
+            <button class="filter-btn" data-filter="Playful">✨ Playful</button>
+            <button class="filter-btn" data-filter="Elegant">♦ Elegant</button>
+            <button class="filter-btn" data-filter="Fierce">🔥 Fierce</button>
+            <button class="filter-btn" data-filter="Dreamy">☁ Dreamy</button>
+            <button class="filter-btn eco-filter" data-filter="Eco">🌱 Eco Only</button>
+        </div>
+
+        <div class="outfit-grid" id="outfitGrid">
+            <!-- Cards generated by JS -->
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════ WARDROBE MIXING BOARD ════════════════════ -->
+    <section class="section" id="wardrobe">
+        <div class="section-header">
+            <div class="section-tag">04 — Wardrobe Lab</div>
+            <h2 class="section-title">Mix &amp; Match <span class="gradient-text">Intelligence</span></h2>
+            <p class="section-subtitle">Drag and combine pieces. The AI scores your combination in real time.</p>
+        </div>
+
+        <div class="wardrobe-lab">
+            <div class="wardrobe-pieces" id="wardrobePieces"></div>
+
+            <div class="wardrobe-canvas-wrapper">
+                <div class="canvas-label">Drop Zone — Build Your Look</div>
+                <div class="wardrobe-canvas" id="wardrobeCanvas">
+                    <div class="canvas-placeholder" id="canvasPlaceholder">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <circle cx="30" cy="30" r="28" stroke="#b47bff" stroke-width="1.5" stroke-dasharray="6 4" />
+                            <path d="M20 30 L30 20 L40 30 L30 40Z" fill="#b47bff" opacity="0.3" />
+                            <text x="30" y="55" fill="#b47bff" font-size="9" text-anchor="middle"
+                                font-family="Outfit">Drag pieces here</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="outfit-score-panel">
+                    <div class="score-item">
+                        <span class="score-label">Harmony</span>
+                        <div class="score-bar-track">
+                            <div class="score-bar" id="harmonyBar" style="width:0%"></div>
+                        </div>
+                        <span class="score-val" id="harmonyVal">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Boldness</span>
+                        <div class="score-bar-track">
+                            <div class="score-bar" id="boldBar" style="width:0%"></div>
+                        </div>
+                        <span class="score-val" id="boldVal">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Occasion Fit</span>
+                        <div class="score-bar-track">
+                            <div class="score-bar" id="occasionBar" style="width:0%"></div>
+                        </div>
+                        <span class="score-val" id="occasionVal">0</span>
+                    </div>
+                    <div class="mix-overall-score">
+                        <div class="mix-score-ring" id="mixScoreRing">
+                            <svg viewBox="0 0 80 80">
+                                <circle cx="40" cy="40" r="32" stroke="#1a0a2e" stroke-width="8" fill="none" />
+                                <circle cx="40" cy="40" r="32" stroke="url(#scoreGrad)" stroke-width="8" fill="none"
+                                    stroke-dasharray="201" stroke-dashoffset="201" stroke-linecap="round"
+                                    id="scoreCircle" transform="rotate(-90 40 40)" />
+                                <defs>
+                                    <linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#b47bff" />
+                                        <stop offset="100%" stop-color="#00d4ff" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="mix-score-num" id="mixScoreNum">0</div>
+                        </div>
+                        <div class="mix-score-label">Overall Score</div>
+                    </div>
+                    <div class="mix-ai-feedback" id="mixAiFeedback">Add pieces to get your AI style score</div>
+                    <button class="btn-primary" id="saveLookBtn" style="width:100%;margin-top:12px">Save This
+                        Look</button>
+                    <button class="btn-ghost" id="clearLookBtn" style="width:100%;margin-top:8px">Clear Canvas</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════ SUSTAINABILITY ════════════════════════════ -->
+    <section class="section" id="sustainability">
+        <div class="section-header">
+            <div class="section-tag">05 — Eco Intelligence</div>
+            <h2 class="section-title">Fashion that <span class="gradient-text">heals the Earth</span></h2>
+            <p class="section-subtitle">Live sustainability metrics for every item in your feed.</p>
+        </div>
+
+        <div class="eco-dashboard">
+            <div class="eco-metrics-grid" id="ecoMetrics"></div>
+
+            <div class="eco-ring-display">
+                <div class="eco-ring-container" id="ecoRingContainer">
+                    <canvas id="ecoRingCanvas" width="320" height="320"></canvas>
+                    <div class="eco-ring-center">
+                        <div class="eco-score-big" id="ecoScoreBig">84</div>
+                        <div class="eco-score-label">Eco Score</div>
+                    </div>
+                </div>
+                <div class="eco-pledge">
+                    <div class="pledge-icon">🌱</div>
+                    <div class="pledge-text">
+                        Your wardrobe saves <strong id="waterSaved">12,400L</strong> of water &amp; <strong
+                            id="co2Saved">38kg</strong> CO₂ annually vs fast fashion.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════ BOUTIQUES ═════════════════════════════════ -->
+    <section class="section" id="boutiques">
+        <div class="section-header">
+            <div class="section-tag">06 — Local Discovery</div>
+            <h2 class="section-title">Boutiques <span class="gradient-text">near your soul</span></h2>
+            <p class="section-subtitle">AI-matched local boutiques based on your style profile and mood.</p>
+        </div>
+
+        <div class="boutique-scroll">
+    <div class="boutique-carousel" id="boutiqueCarousel"></div>
+</div>
+    </section>
+
+    <!-- ═══════════════════════════ AI PHOTO ANALYZER ═════════════════════════ -->
+    <section class="section" id="analyzer">
+        <div class="section-header">
+            <div class="section-tag">07 — Visual AI</div>
+            <h2 class="section-title">Analyze Your <span class="gradient-text">Photo</span></h2>
+            <p class="section-subtitle">Upload a photo — our AI detects your outfit, mood, and skin tone to suggest
+                personalized style improvements.</p>
+        </div>
+
+        <div class="analyzer-layout">
+            <!-- Upload Zone -->
+            <div class="analyzer-upload-side">
+                <div class="analyzer-dropzone" id="analyzerDropzone">
+                    <div class="dropzone-inner" id="dropzoneInner">
+                        <div class="dropzone-icon">
+                            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+                                <circle cx="28" cy="28" r="27" stroke="url(#dGrad)" stroke-width="1.5"
+                                    stroke-dasharray="6 4" />
+                                <path d="M28 18 L28 36M20 26 L28 18 L36 26" stroke="url(#dGrad)" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <defs>
+                                    <linearGradient id="dGrad" x1="0" y1="0" x2="56" y2="56">
+                                        <stop offset="0%" stop-color="#b47bff" />
+                                        <stop offset="100%" stop-color="#00d4ff" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="dropzone-label">Drop your photo here</div>
+                        <div class="dropzone-sublabel">or click to browse</div>
+                        <button class="btn-primary" id="analyzerBrowseBtn"
+                            style="margin-top:16px;padding:10px 28px">Choose Photo</button>
+                    </div>
+                    <!-- Preview after upload -->
+                    <div class="analyzer-preview hidden" id="analyzerPreview">
+                        <img id="analyzerPreviewImg" src="" alt="Your photo" class="analyzer-preview-img" />
+                        <div class="preview-scan-overlay">
+                            <div class="preview-scan-beam"></div>
+                            <div class="preview-scan-grid"></div>
+                        </div>
+                        <button class="analyzer-retake-btn" id="analyzerRetakeBtn">↺ Try another</button>
+                    </div>
+                    <input type="file" id="analyzerFileInput" accept="image/*" hidden />
+                </div>
+                <!-- Analyzing progress -->
+                <div class="analyzer-progress hidden" id="analyzerProgress">
+                    <div class="progress-steps">
+                        <div class="prog-step" id="progStep1"><span class="step-dot active"></span> Detecting outfit
+                            elements…</div>
+                        <div class="prog-step" id="progStep2"><span class="step-dot"></span> Reading mood signals…</div>
+                        <div class="prog-step" id="progStep3"><span class="step-dot"></span> Matching skin tone…</div>
+                        <div class="prog-step" id="progStep4"><span class="step-dot"></span> Generating recommendations…
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Side -->
+            <div class="analyzer-results-side" id="analyzerResults">
+                <div class="analyzer-placeholder-state" id="analyzerPlaceholder">
+                    <div style="font-size:52px;margin-bottom:16px;opacity:0.25">🪞</div>
+                    <p style="color:var(--text-muted);font-size:14px;text-align:center;line-height:1.6">Upload a photo
+                        to get<br />your AI style analysis</p>
+                </div>
+
+                <div class="analyzer-result-content hidden" id="analyzerResultContent">
+                    <!-- Detected Tags -->
+                    <div class="result-section">
+                        <div class="result-label">Detected in Your Photo</div>
+                        <div class="result-tags" id="analyzedTags"></div>
+                    </div>
+
+                    <!-- Mood & Tone Cards -->
+                    <div class="result-mini-grid">
+                        <div class="result-mini-card">
+                            <div class="rmc-icon">✦</div>
+                            <div class="rmc-label">Mood Vibes</div>
+                            <div class="rmc-val" id="rMood">—</div>
+                        </div>
+                        <div class="result-mini-card">
+                            <div class="rmc-icon">◎</div>
+                            <div class="rmc-label">Skin Tone</div>
+                            <div class="rmc-val" id="rTone">—</div>
+                        </div>
+                        <div class="result-mini-card">
+                            <div class="rmc-icon">♻</div>
+                            <div class="rmc-label">Eco Score</div>
+                            <div class="rmc-val" id="rEco">—</div>
+                        </div>
+                    </div>
+
+                    <!-- AI Suggestions -->
+                    <div class="result-section">
+                        <div class="result-label">AI Style Suggestions</div>
+                        <div class="suggestion-list" id="suggestionList"></div>
+                    </div>
+
+                    <!-- Matching outfits -->
+                    <div class="result-section">
+                        <div class="result-label">Outfits That Match Your Look</div>
+                        <div class="match-outfit-row" id="matchOutfitRow"></div>
+                    </div>
+
+                    <button class="btn-primary" style="width:100%;margin-top:8px" id="applyAnalysisBtn">Apply to Style
+                        Feed →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════ FOOTER ════════════════════════════════════ -->
+    <!-- Theme Toggle Floater -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle light/dark theme" aria-label="Toggle theme">
+        <span class="theme-icon icon-moon">🌙</span>
+        <span class="theme-icon icon-sun">☀️</span>
+    </button>
+
+    <footer class="footer">
+        <div class="footer-logo">
+            <svg viewBox="0 0 40 40" fill="none" width="32" height="32">
+                <circle cx="20" cy="20" r="18" stroke="url(#fLogoGrad)" stroke-width="2" />
+                <path d="M12 20 Q20 8 28 20 Q20 32 12 20Z" fill="url(#fLogoGrad)" opacity="0.8" />
+                <circle cx="20" cy="20" r="4" fill="white" />
+                <defs>
+                    <linearGradient id="fLogoGrad" x1="0" y1="0" x2="40" y2="40">
+                        <stop offset="0%" stop-color="#b47bff" />
+                        <stop offset="100%" stop-color="#00d4ff" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <span>Staybnb</span>
+        </div>
+        <p class="footer-copy">© 2026 Staybnb AI · Fashion Intelligence Platform</p>
+        <div class="footer-links">
+            <a href="#" id="footerLogin">Log In</a>
+            <a href="#" id="footerSignup">Sign Up</a>
+            <a href="#">Privacy</a>
+            <a href="#">Eco Report</a>
+        </div>
+        <p class="footer-credit">crafted by VVNSSK</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        /* ── AUTH INLINE (avoids file:// CORS) ── */
+        'use strict';
+        const AUTH = { user: null, styleDNA: [] };
+        try { const s = localStorage.getItem('staybnb_user'); if (s) AUTH.user = JSON.parse(s); } catch (e) { }
+        const $id = id => document.getElementById(id);
+        const openOverlay = id => { $id(id)?.classList.add('active'); document.body.style.overflow = 'hidden'; };
+        const closeOverlay = id => { $id(id)?.classList.remove('active'); document.body.style.overflow = ''; };
+        const validateEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+        function setInputState(el, state, msg = '') {
+            if (!el) return; el.classList.remove('error', 'success');
+            if (state) el.classList.add(state);
+            const err = el.closest('.form-group')?.querySelector('.form-error');
+            if (err) err.textContent = msg;
+        }
+        function showToastAuth(msg) { if (typeof showToast === 'function') showToast(msg); }
+        function fakeDelay(ms) { return new Promise(r => setTimeout(r, ms)); }
+        function checkPwStrength(pw) {
+            let s = 0;
+            if (pw.length >= 8) s++; if (/[A-Z]/.test(pw)) s++; if (/[0-9]/.test(pw)) s++; if (/[^a-zA-Z0-9]/.test(pw)) s++;
+            const c = ['', '#ff4466', '#ff9f43', '#ffd700', '#00f5a0'], w = ['0%', '25%', '50%', '75%', '100%'], l = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+            const bar = $id('pwBar'), hint = $id('pwHint');
+            if (bar) { bar.style.width = s ? w[s] : '0%'; bar.style.background = c[s] || 'transparent'; }
+            if (hint) { hint.textContent = s ? l[s] : 'Enter password'; hint.style.color = c[s] || 'rgba(240,232,255,0.4)'; }
+            return s;
+        }
+        // Eye toggle
+        document.querySelectorAll('.eye-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const t = document.getElementById(btn.dataset.target); if (!t) return;
+                t.type = t.type === 'password' ? 'text' : 'password';
+                btn.textContent = t.type === 'password' ? '👁' : '🙈';
+            });
+        });
+        $id('signupPassword')?.addEventListener('input', e => checkPwStrength(e.target.value));
+        // Open/close
+        function openLogin() { closeOverlay('signupOverlay'); openOverlay('loginOverlay'); }
+        function openSignup() { closeOverlay('loginOverlay'); openOverlay('signupOverlay'); resetSignupSteps(); }
+        $id('navLogin')?.addEventListener('click', openLogin);
+        $id('navSignup')?.addEventListener('click', openSignup);
+        $id('footerLogin')?.addEventListener('click', e => { e.preventDefault(); openLogin(); });
+        $id('footerSignup')?.addEventListener('click', e => { e.preventDefault(); openSignup(); });
+        $id('loginClose')?.addEventListener('click', () => closeOverlay('loginOverlay'));
+        $id('signupClose')?.addEventListener('click', () => closeOverlay('signupOverlay'));
+        $id('profileClose')?.addEventListener('click', () => closeOverlay('profileOverlay'));
+        ['loginOverlay', 'signupOverlay', 'profileOverlay'].forEach(id => {
+            $id(id)?.addEventListener('click', e => { if (e.target === $id(id)) closeOverlay(id); });
+        });
+        $id('goToSignup')?.addEventListener('click', e => { e.preventDefault(); openSignup(); });
+        $id('goToLogin')?.addEventListener('click', e => { e.preventDefault(); openLogin(); });
+        // Login form
+        $id('loginForm')?.addEventListener('submit', async e => {
+            e.preventDefault(); let valid = true;
+            const emailEl = $id('loginEmail'), passEl = $id('loginPassword');
+            if (!validateEmail(emailEl.value.trim())) { setInputState(emailEl, 'error', 'Enter a valid email'); valid = false; }
+            else setInputState(emailEl, 'success');
+            if (passEl.value.length < 6) { setInputState(passEl, 'error', 'Min 6 characters'); valid = false; }
+            else setInputState(passEl, 'success');
+            if (!valid) return;
+            const btn = $id('loginSubmit'); if (btn) { btn.disabled = true; btn.querySelector('.btn-text').hidden = true; btn.querySelector('.btn-spinner').hidden = false; }
+            await fakeDelay(1200);
+            let stored = null; try { stored = JSON.parse(localStorage.getItem('staybnb_user')); } catch (e) { }
+            const user = stored && stored.email === emailEl.value.trim() ? stored
+                : { email: emailEl.value.trim(), first: emailEl.value.split('@')[0], last: '', styleDNA: ['Minimalist'], city: '' };
+            loginUser(user);
+            if (btn) { btn.disabled = false; btn.querySelector('.btn-text').hidden = false; btn.querySelector('.btn-spinner').hidden = true; }
+            closeOverlay('loginOverlay');
+            showToastAuth(`Welcome back, ${user.first}! ✨`);
+        });
+        // Social login
+        async function simulateSocialLogin(provider) {
+            showToastAuth(`Connecting to ${provider}…`); await fakeDelay(1100);
+            const ns = ['Priya Sharma', 'Aanya Kapoor', 'Riya Mehta', 'Zara Khan'], n = ns[Math.floor(Math.random() * ns.length)].split(' ');
+            const user = { email: `user@${provider.toLowerCase()}.com`, first: n[0], last: n[1], styleDNA: ['Bold', 'Futuristic'], city: 'Mumbai', provider };
+            loginUser(user); closeOverlay('loginOverlay'); closeOverlay('signupOverlay');
+            showToastAuth(`Signed in with ${provider}! Welcome, ${user.first} ✦`);
+        }
+        $id('googleLogin')?.addEventListener('click', () => simulateSocialLogin('Google'));
+        $id('appleLogin')?.addEventListener('click', () => simulateSocialLogin('Apple'));
+        // Signup steps
+        let signupData = {};
+        function resetSignupSteps() {
+            signupData = {}; AUTH.styleDNA = [];
+            showSignupStep(1);
+            document.querySelectorAll('.dna-chip').forEach(c => c.classList.remove('selected'));
+            [$id('signupFirst'), $id('signupLast'), $id('signupEmail'), $id('signupPassword')].forEach(el => { if (el) el.value = ''; });
+        }
+        function showSignupStep(n) {
+            [$id('signupStep1'), $id('signupStep2'), $id('signupStep3')].forEach((el, i) => { if (el) el.classList.toggle('hidden', i + 1 !== n); });
+            for (let i = 1; i <= 3; i++) {
+                const el = $id(`sstep${i}`); if (!el) continue;
+                el.classList.remove('active', 'done');
+                if (i === n) el.classList.add('active'); else if (i < n) el.classList.add('done');
+            }
+        }
+        $id('signupForm1')?.addEventListener('submit', e => {
+            e.preventDefault(); let valid = true;
+            const first = $id('signupFirst').value.trim(), email = $id('signupEmail').value.trim(), pass = $id('signupPassword').value;
+            if (!first) { setInputState($id('signupFirst'), 'error', 'Required'); valid = false; } else setInputState($id('signupFirst'), 'success');
+            if (!validateEmail(email)) { setInputState($id('signupEmail'), 'error', 'Invalid email'); valid = false; } else setInputState($id('signupEmail'), 'success');
+            if (checkPwStrength(pass) < 2) { setInputState($id('signupPassword'), 'error', 'Choose a stronger password'); valid = false; } else setInputState($id('signupPassword'), 'success');
+            if (!valid) return;
+            signupData = { first, last: $id('signupLast').value.trim(), email, password: pass };
+            showSignupStep(2);
+        });
+        $id('dnaGrid')?.addEventListener('click', e => {
+            const chip = e.target.closest('.dna-chip'); if (!chip) return;
+            if (chip.classList.contains('selected')) { chip.classList.remove('selected'); AUTH.styleDNA = AUTH.styleDNA.filter(v => v !== chip.dataset.val); }
+            else { if (AUTH.styleDNA.length < 3) { chip.classList.add('selected'); AUTH.styleDNA.push(chip.dataset.val); } else showToastAuth('Pick up to 3 vibes'); }
+        });
+        $id('step2Next')?.addEventListener('click', () => {
+            if (AUTH.styleDNA.length === 0) { showToastAuth('Select at least 1 style vibe'); return; }
+            signupData.styleDNA = [...AUTH.styleDNA]; signupData.city = $id('signupCity')?.value.trim() || '';
+            showSignupStep(3);
+            if ($id('welcomeName')) $id('welcomeName').textContent = signupData.first || 'Stylist';
+            const chips = $id('successChips');
+            if (chips) chips.innerHTML = AUTH.styleDNA.map(v => `<span class="success-chip">${v}</span>`).join('');
+        });
+        $id('step2Back')?.addEventListener('click', () => showSignupStep(1));
+        $id('enterAppBtn')?.addEventListener('click', () => {
+            const user = {
+                first: signupData.first, last: signupData.last, email: signupData.email,
+                styleDNA: signupData.styleDNA || [], city: signupData.city, joinedAt: new Date().toISOString()
+            };
+            try { localStorage.setItem('staybnb_user', JSON.stringify(user)); } catch (e) { }
+            loginUser(user); closeOverlay('signupOverlay');
+            showToastAuth(`✦ Welcome to Staybnb, ${user.first}! Your style journey begins.`);
+        });
+        // Profile
+        function showProfilePanel() { updateProfileUI(); openOverlay('profileOverlay'); }
+        $id('navProfileBtn')?.addEventListener('click', showProfilePanel);
+        function loginUser(user) {
+            AUTH.user = user;
+            try { localStorage.setItem('staybnb_user', JSON.stringify(user)); } catch (e) { }
+            $id('navGuestBtns')?.classList.add('hidden');
+            $id('navUserArea')?.classList.remove('hidden');
+            const init = `${user.first?.[0] || ''}${user.last?.[0] || ''}`.toUpperCase() || 'S';
+            const navAv = $id('navAvatar'); if (navAv) { if (user.avatar) navAv.innerHTML = `<img src="${user.avatar}" alt="Avatar"/>`; else navAv.textContent = init; }
+            const navNm = $id('navUserName'); if (navNm) navNm.textContent = user.first || 'Stylist';
+            updateProfileUI();
+        }
+        function updateProfileUI() {
+            const u = AUTH.user; if (!u) return;
+            const init = `${u.first?.[0] || ''}${u.last?.[0] || ''}`.toUpperCase() || 'S';
+            const pAv = $id('profileAvatarInitials');
+            if (pAv) { if (u.avatar) { const p = $id('profileAvatar'); if (p) p.innerHTML = `<img src="${u.avatar}" alt="Avatar"/>`; } else pAv.textContent = init; }
+            const pName = $id('profileName'); if (pName) pName.textContent = `${u.first || ''} ${u.last || ''}`.trim();
+            const pEmail = $id('profileEmail'); if (pEmail) pEmail.textContent = u.email || '';
+            const sc = window.state?.savedOutfits?.size ?? 0;
+            const pSc = $id('pSavedCount'); if (pSc) pSc.textContent = sc;
+            const pMood = $id('pMoodCount'); if (pMood) pMood.textContent = window.state?.activeMood || 'Confident';
+            const dnas = u.styleDNA || ['Minimalist'];
+            const dnaTags = $id('profileDnaTags'); if (dnaTags) dnaTags.innerHTML = dnas.map(d => `<span class="p-dna-tag">${d}</span>`).join('');
+            const hist = [{ label: 'Confident', count: 12 }, { label: 'Elegant', count: 8 }, { label: 'Calm', count: 5 }, { label: 'Playful', count: 4 }];
+            const histEl = $id('moodHistoryBars');
+            if (histEl) histEl.innerHTML = hist.map(m => `<div class="mood-hist-item"><span class="mood-hist-label">${m.label}</span><div class="mood-hist-track"><div class="mood-hist-fill" style="width:${m.count / 12 * 100}%"></div></div><span class="mood-hist-count">${m.count}</span></div>`).join('');
+            const tonePillRow = $id('tonePillRow');
+            if (tonePillRow) tonePillRow.innerHTML = ['#f5deb3', '#deb887', '#cd853f', '#8b4513', '#3d1c02', '#1a0a00'].map((c, i) => `<div class="tone-pill ${i === 0 ? 'selected' : ''}" style="background:${c}"></div>`).join('');
+            if ($id('settingsName')) $id('settingsName').value = `${u.first || ''} ${u.last || ''}`.trim();
+            if ($id('settingsCity')) $id('settingsCity').value = u.city || '';
+            updateSavedLooksTab();
+        }
+        function updateSavedLooksTab() {
+            const grid = $id('savedLooksGrid'); if (!grid) return;
+            const saved = window.state?.savedOutfits;
+            const outfits = window.OUTFITS_DATA;
+            if (!saved || !outfits || saved.size === 0) {
+                grid.innerHTML = `<div class="saved-empty"><span>♡</span><p>No saved looks yet.<br/>Tap ♡ on any outfit!</p></div>`; return;
+            }
+            grid.innerHTML = '';
+            saved.forEach(idx => {
+                const o = outfits[idx]; if (!o) return;
+                const div = document.createElement('div'); div.className = 'saved-look-thumb';
+                div.innerHTML = `<img src="${o.photo}" alt="${o.name}" loading="lazy"/><div class="saved-look-label">${o.name}</div>`;
+                grid.appendChild(div);
+            });
+        }
+        window.updateSavedLooksTab = updateSavedLooksTab;
+        // Profile tabs
+        document.querySelector('.profile-tabs')?.addEventListener('click', e => {
+            const tab = e.target.closest('.p-tab'); if (!tab) return;
+            const target = tab.dataset.tab;
+            document.querySelectorAll('.p-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active');
+            const key = 'tabContent' + target.charAt(0).toUpperCase() + target.slice(1);
+            document.querySelectorAll('.p-tab-content').forEach(c => { c.classList.toggle('hidden', c.id !== key); c.classList.toggle('active', c.id === key); });
+            if (target === 'saved') updateSavedLooksTab();
+        });
+        // Settings save
+        $id('saveSettingsBtn')?.addEventListener('click', () => {
+            if (!AUTH.user) return;
+            const n = ($id('settingsName')?.value.trim() || '').split(' ');
+            AUTH.user.first = n[0] || AUTH.user.first; AUTH.user.last = n.slice(1).join(' ');
+            AUTH.user.city = $id('settingsCity')?.value.trim() || '';
+            try { localStorage.setItem('staybnb_user', JSON.stringify(AUTH.user)); } catch (e) { }
+            loginUser(AUTH.user); showToastAuth('Settings saved! ✓');
+        });
+        // Avatar
+        $id('avatarEditBtn')?.addEventListener('click', () => $id('avatarInput')?.click());
+        $id('profileAvatar')?.addEventListener('click', () => $id('avatarInput')?.click());
+        $id('avatarInput')?.addEventListener('change', e => {
+            const file = e.target.files?.[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const src = ev.target.result;
+                const av = $id('profileAvatar'); if (av) av.innerHTML = `<img src="${src}" alt="Avatar"/>`;
+                const nav = $id('navAvatar'); if (nav) nav.innerHTML = `<img src="${src}" alt="Avatar"/>`;
+                if (AUTH.user) { AUTH.user.avatar = src; try { localStorage.setItem('staybnb_user', JSON.stringify(AUTH.user)); } catch (e) { } }
+                showToastAuth('Profile photo updated! 📸');
+            };
+            reader.readAsDataURL(file);
+        });
+        // Logout
+        $id('logoutBtn')?.addEventListener('click', () => {
+            AUTH.user = null; try { localStorage.removeItem('staybnb_user'); } catch (e) { }
+            $id('navGuestBtns')?.classList.remove('hidden'); $id('navUserArea')?.classList.add('hidden');
+            closeOverlay('profileOverlay'); showToastAuth('Signed out. See you soon! 👋');
+        });
+        // Forgot password
+        $id('forgotLink')?.addEventListener('click', async e => {
+            e.preventDefault(); const em = $id('loginEmail')?.value.trim();
+            if (!validateEmail(em)) { setInputState($id('loginEmail'), 'error', 'Enter your email first'); return; }
+            showToastAuth(`Password reset link sent to ${em} ✓`);
+        });
+        // Footer links
+        $id('navCta')?.addEventListener('click', () => { if (!AUTH.user) openSignup(); else showProfilePanel(); });
+        // Restore
+        if (AUTH.user) loginUser(AUTH.user);
+        window.AUTH = AUTH; window.openLogin = openLogin; window.openSignup = openSignup; window.showProfilePanel = showProfilePanel;
+    </script>
+</body>
+
+</html>
